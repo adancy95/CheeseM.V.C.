@@ -28,9 +28,16 @@ namespace CheeseMVC.Controllers
         [Route("/Cheese/Add")]
         public IActionResult NewCheese(string name, string description)
         {
-            //Add the new cheese to my existing cheeses list
-            Cheeses.Add(name, description);
-            return Redirect("/Cheese");
+            if (!string.IsNullOrEmpty(name) && System.Text.RegularExpressions.Regex.IsMatch(name, @"^[a-zA-Z0-9]+$"))
+            {
+                //Add the new cheese to my existing cheeses list
+                Cheeses.Add(name, description);
+                return Redirect("/Cheese");
+            }
+            else
+            {
+                return Redirect("/Cheese/Add");
+            }
         }
 
         public IActionResult Remove()
